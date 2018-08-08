@@ -1,4 +1,5 @@
-import Data.List
+import           BasicModule
+import           Data.List
 
 -- basic pattern matching
 lucky:: Int -> String
@@ -20,7 +21,7 @@ vectorAdd (x1, y1, z1) (x2, y2, z2) = (x1+x2, y1+y2, z1+z2)
 -- MUST have () around x:_ b/c we're binding to 2 variables
 -- The (x:_) syntax to get first element of list only works for non-empty list so must have pattern for []
 rsmHead :: [a] -> a
-rsmHead [] = error "No head on empty list"
+rsmHead []    = error "No head on empty list"
 rsmHead (x:_) = x
 
 -- Example with as expression
@@ -51,4 +52,6 @@ main = do
     print $ exampleListFnct "hello world"
     print $ gradeAverage [20,60,80]
     print $ gradeAverage [100,50, 75]
+    print $ sumOfSquares 2 4
+    print $ sumOfCubes 2 4
     where exampleList = [2,5,8,1,3]

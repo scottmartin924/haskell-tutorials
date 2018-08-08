@@ -9,7 +9,7 @@ customLength list = sum [1 | _ <- list]
 -- but I'm just trying to use a list comprehension for something
 pythTriples max = [(a,b,c) | c <- [1..max], b <- [1..c], a <- [1..b],
                     a^2+b^2==c^2]
-
+                      
 main = do
     let list = [1,2,3,4,5]
     print list

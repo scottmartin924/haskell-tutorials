@@ -33,3 +33,4 @@ main = do
     print $ custZip [1,2,3] ['a','b','c']
     print $ quicksort [8,1,3,9,2,10,1]
     print $ quicksort "recursion is cool"
+    

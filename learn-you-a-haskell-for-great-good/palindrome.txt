@@ -1,0 +1,5 @@
+not a palindrome
+madam
+dog
+rotor
+radar

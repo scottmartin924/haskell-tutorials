@@ -59,3 +59,61 @@ and' (x:xs) = x && and' xs
 concat' :: [[a]] -> [a]
 concat' [] = []
 concat' (x:xs) = x ++ concat' xs
+
+-- Produce a list with n identical elements
+replicate' :: Int -> a -> [a]
+replicate' 0 _ = []
+replicate' n x = x : replicate' (n-1) x
+
+-- Select the nth element of a list
+(!!^) :: [a] -> Int -> a
+(x:_) !!^ 0 = x
+(_:xs) !!^ n | n < 0 || n > length xs = error "Array index out of bounds"
+             | otherwise = xs !!^ (n-1)
+
+-- Decide if element is in list (this relies on short-circuiting the || operator to not look at entire list)
+elem' :: Eq a => a -> [a] -> Bool
+elem' val [] = False
+elem' val (x:xs) = x == val || elem' val xs
+
+-- #7 Define a recursive function merge :: Ord a => [a] -> [a] -> [a] that merges
+-- two sorted lists to give a single sorted list
+  -- Future note: @ allows you to reference entire list (xs/ys) and still look at
+  --head and tail as well (x:xt)/(y:yt) very useful here when need to use full list in next call
+    -- Thanks LYAH
+merge' :: Ord a => [a] -> [a] -> [a]
+merge' [] ys = ys
+merge' xs [] = xs
+merge' xs@(x:xt) ys@(y:yt) | x < y = x : merge' xt ys
+                           | otherwise = y : merge' xs yt
+
+-- #8 Using merge define a function msort :: ord a => [a] -> [a] that implements
+-- merge sort in which the empty list and singleton list are already sorted
+-- and any other list is sorted by merging the two lists that result from sorting the
+-- two lists separately...implementing halve w/ split at is probably a bit of cheating
+mergeSort :: Ord a => [a] -> [a]
+mergeSort [] = []
+mergeSort [x] = [x]
+mergeSort xs = merge' (mergeSort $ fst halved) (mergeSort $ snd halved)
+                where halved = splitAt (length xs `div` 2) xs
+
+-- #9 Construct library functions that do the following: sum list of numbers,
+-- take a given number of elements from the start of a list, select last element
+-- of a nonempty list
+-- Sum list of numbers
+sum' :: Num a => [a] -> a
+sum' [] = 0
+sum' (x:xs) = x + sum' xs
+
+-- Take a given number of elements from the start of the list
+take' :: Int -> [a] -> [a]
+take' 0 _ = []
+take' _ [] = []
+take' n (x:xs) = x : take' (n-1) xs
+
+-- Select the last element of a nonempty list
+  -- Remember that to check for singleton list do [x] NOT (x:[])...just easier to read
+last' :: [a] -> a
+last' [] = error "cannot take last element of empty list"
+last' [x] = x
+last' (_:xs) = last' xs
